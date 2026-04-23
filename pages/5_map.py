@@ -6,7 +6,7 @@ import plotly.express as px
 from pathlib import Path
 from utils import load_all_data,show_banner
 
-_GEOJSON_PATH = Path(__file__).resolve().parent.parent / "qatar_zones.geojson"
+_GEOJSON_PATH = Path(__file__).resolve().parent.parent / "qatar_zones_simplified.geojson"
 
 
 def app():

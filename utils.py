@@ -56,7 +56,7 @@ def load_accident_data(filepath: str) -> pd.DataFrame:
         'city', 'zone', 'street', 'accident_severity', 'death_count',
         'birth_year_of_accident_perpetr', 'nationality_group_of_accident', 'total'
     ]
-    df = pd.read_csv(filepath)
+    df = pd.read_parquet(filepath) if filepath.endswith('.parquet') else pd.read_csv(filepath)
     _validate_schema(df, expected_cols)
     return _clean_accident_data(df)
 
@@ -67,7 +67,7 @@ def load_first_year_license_stats(filepath: str) -> pd.DataFrame:
     Load and validate the first-year license injury/fatality stats.
     """
     expected_cols = ['year', 'age_groups', 'statement', 'injured', 'gender', 'no_of_people']
-    df = pd.read_csv(filepath)
+    df = pd.read_parquet(filepath) if filepath.endswith('.parquet') else pd.read_csv(filepath)
     _validate_schema(df, expected_cols)
     return df
 
@@ -81,7 +81,7 @@ def load_cause_stats(filepath: str) -> pd.DataFrame:
         'year', 'accident_cause', 'affected_person_location',
         'gender', 'result_of_the_accident', 'number_of_people'
     ]
-    df = pd.read_csv(filepath)
+    df = pd.read_parquet(filepath) if filepath.endswith('.parquet') else pd.read_csv(filepath)
     _validate_schema(df, expected_cols)
     return df
 
@@ -95,7 +95,7 @@ def load_experience_stats(filepath: str) -> pd.DataFrame:
         'year', 'driver_s_experience', 'gender',
         'affected_person_location', 'result_of_the_accident', 'number_of_people'
     ]
-    df = pd.read_csv(filepath)
+    df = pd.read_parquet(filepath) if filepath.endswith('.parquet') else pd.read_csv(filepath)
     _validate_schema(df, expected_cols)
     return df
 
@@ -128,13 +128,13 @@ def load_all_data(
 ) -> dict[str, pd.DataFrame]:
     _data_dir = Path(__file__).resolve().parent / "data"
     if accident_fp is None:
-        accident_fp = str(_data_dir / "accident.csv")
+        accident_fp = str(_data_dir / "accident.parquet")
     if first_year_fp is None:
-        first_year_fp = str(_data_dir / "deaths-and-injuries-in-traffic-accidents-during-the-first-year-of-license-issuance-by-age-group-gender-and-role-of-injured.csv")
+        first_year_fp = str(_data_dir / "deaths-and-injuries-in-traffic-accidents-during-the-first-year-of-license-issuance-by-age-group-gender-and-role-of-injured.parquet")
     if cause_fp is None:
-        cause_fp = str(_data_dir / "number-of-deaths-and-injuries-from-traffic-accidents-by-accident-cause-affected-person-location-and-gender.csv")
+        cause_fp = str(_data_dir / "number-of-deaths-and-injuries-from-traffic-accidents-by-accident-cause-affected-person-location-and-gender.parquet")
     if experience_fp is None:
-        experience_fp = str(_data_dir / "number-of-deaths-and-injuries-from-traffic-accidents-by-driver-experience-gender-and-affected-person-location.csv")
+        experience_fp = str(_data_dir / "number-of-deaths-and-injuries-from-traffic-accidents-by-driver-experience-gender-and-affected-person-location.parquet")
     """
     Load every traffic-safety dataset at once.
     Returns a dict with four DataFrames.
